@@ -97,15 +97,15 @@
   </section>
 
   <!-- POSTS -->
-  <section id="posts">
+  <section>
     <div class="container">
       <div class="row">
-        <div class="col-md-9">
-          <div class="card">
+        <div class="col-md-9" id="postParent">
+          <div class="card" id="postContainer">
             <div class="card-header">
               <h4>Latest Posts</h4>
             </div>
-            <table class="table table-striped">
+            <table class="table table-striped" id="postTable">
               <thead class="table-dark">
                 <tr>
                   <th>#</th>
@@ -115,73 +115,7 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Post One</td>
-                  <td>Web Development</td>
-                  <td>Nov 12 2019</td>
-                  <td>
-                    <a href="details.html" class="btn btn-secondary">
-                      <i class="fas fa-angle-double-right"></i> Details
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Post Two</td>
-                  <td>Tech Gadgets</td>
-                  <td>Nov 13 2019</td>
-                  <td>
-                    <a href="details.html" class="btn btn-secondary">
-                      <i class="fas fa-angle-double-right"></i> Details
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Post Three</td>
-                  <td>Web Development</td>
-                  <td>Nov 15 2019</td>
-                  <td>
-                    <a href="details.html" class="btn btn-secondary">
-                      <i class="fas fa-angle-double-right"></i> Details
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Post Four</td>
-                  <td>Business</td>
-                  <td>Nov 19 2019</td>
-                  <td>
-                    <a href="details.html" class="btn btn-secondary">
-                      <i class="fas fa-angle-double-right"></i> Details
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Post Five</td>
-                  <td>Web Development</td>
-                  <td>Nov 20 2019</td>
-                  <td>
-                    <a href="details.html" class="btn btn-secondary">
-                      <i class="fas fa-angle-double-right"></i> Details
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>Post Six</td>
-                  <td>Health & Wellness</td>
-                  <td>Nov 26 2019</td>
-                  <td>
-                    <a href="details.html" class="btn btn-secondary">
-                      <i class="fas fa-angle-double-right"></i> Details
-                    </a>
-                  </td>
-                </tr>
+              <tbody id="latestPosts">
               </tbody>
             </table>
           </div>
@@ -190,8 +124,9 @@
           <div class="card text-center bg-primary text-white mb-3">
             <div class="card-body">
               <h3>Posts</h3>
-              <h4 class="display-4">
-                <i class="fas fa-pencil-alt"></i> 6
+              <!-- Added ID for JS -->
+              <h4 class="display-4" id="postCount">
+                <i class="fas fa-pencil-alt"></i>
               </h4>
               <a href="posts.html" class="btn btn-outline-light btn-sm">View</a>
             </div>
@@ -248,14 +183,15 @@
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form id="postForm">
             <div class="form-group">
               <label for="title">Title</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" id="postTitle">
             </div>
             <div class="form-group">
               <label for="category">Category</label>
-              <select class="form-control">
+              <select class="form-control" id="postCategory">
+                <option selected="selected">Choose One...</option>
                 <option>Web Development</option>
                 <option>Tech Gadgets</option>
                 <option>Business</option>
@@ -271,13 +207,14 @@
               </div>
               <div class="form-group">
                 <label for="body">Body</label>
-                <textarea name="editor1" class="form-control"></textarea>
+                <textarea name="editor1" class="form-control" id="postBody"></textarea>
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" data-dismiss="modal">Save Changes</button>
+          <!-- Added id for JS -->
+          <button class="btn btn-primary" data-dismiss="modal" id="addPostBtn">Add Post</button>
         </div>
       </div>
     </div>
@@ -364,8 +301,9 @@
     $('#year').text(new Date().getFullYear());
     // Modal Editor
     CKEDITOR.replace('editor1');
-
   </script>
+  <!-- Local JS -->
+  <script src="js/app.js"></script>
 </body>
 
 </html>
