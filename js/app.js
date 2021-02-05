@@ -1,7 +1,113 @@
-// Local Storage for Posts
-// TODO: Add script tag on each HTML files
+/* 
+  This file is intended to simulate a backend response.
+  It is not meant to be used for any other purpose.
+  Author: Chris Mabey
+  Date: 05/02/2021
+*/
 
-// POSTS
+const examplePosts = [
+  {
+    id: '1',
+    title: 'Post One',
+    category: 'Web Development',
+    date: '2020-11-01'
+  },
+  {
+    id: '2',
+    title: 'Post Two',
+    category: 'Health & Wellness',
+    date: '2020-05-11'
+  },
+  {
+    id: '3',
+    title: 'Post Three',
+    category: 'Web Development',
+    date: '2020-04-20'
+  },
+  {
+    id: '4',
+    title: 'Post Four',
+    category: 'Business',
+    date: '2020-06-30'
+  },
+  {
+    id: '5',
+    title: 'Post Five',
+    category: 'Tech Gadgets',
+    date: '2020-01-01'
+  }
+];
+const defaultCategories = [
+  {
+    id: 1,
+    title: 'Web Development',
+    date: Date('2020-11-01')
+  },
+  {
+    id: 2,
+    title: 'Tech Gadgets',
+    date: Date('2020-11-01')
+  },
+  {
+    id: 3,
+    title: 'Business',
+    date: Date('2020-11-01')
+  },
+  {
+    id: 4,
+    title: 'Health & Wellness',
+    date: Date('2020-11-01')
+  }
+];
+
+const postCountElem = document.getElementById('postCount');
+const catCountElem = document.getElementById('categoryCount');
+const categoryTitle = document.getElementById('categoryTitle');
+const postCategory = document.getElementById('postCategory');
+const allPosts = document.getElementById('postAllTable');
+const latestPosts = document.getElementById('postLatestTable');
+const userTable = document.getElementById('userTable');
+const categoryTable = document.getElementById('categoryTable');
+const addUserBtn = document.getElementById('addUserBtn');
+const addCategoryBtn = document.getElementById('addCategoryBtn');
+const addPostBtn = document.getElementById('addPostBtn');
+
+// Init
+window.addEventListener('DOMContentLoaded', function () {
+  // Category Page
+  if(categoryTable) {
+    const ui = new CategoryUI;
+    initCategoryTable(ui);
+  };
+  // Post Page
+  if(allPosts) {
+    const ui = new PostUI;
+    initAllPosts(ui);
+  };
+  // Dashboard Page
+  if(latestPosts)  {
+    let postUI = new PostUI;
+    let catUI = new CategoryUI;
+    initLatestPosts(postUI);
+    initCategories(catUI);
+  };
+
+  if(addPostBtn) {
+    addPostBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      const ui = new PostUI;
+      savePost(ui, 'latest');
+    });
+  };
+
+  if(addCategoryBtn) {
+    addCategoryBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      saveCategory();
+    });
+  };
+});
+
 class Post {
   constructor(id, title, category, date) {
     this.id = id;
@@ -13,7 +119,7 @@ class Post {
       this.date = Date.now();
     }
   }
-}
+};
 
 class Category {
   constructor(id, title, date) {
@@ -25,14 +131,63 @@ class Category {
       this.date = Date.now();
     }
   }
-}
+};
 
-class UI {
-  addPost(post) {
-    const postsTable = document.querySelector('tbody');
-    // Create tr element
+class CategoryUI {
+  constructor() {
+    this.catTable = document.getElementById('categoryTable') || null;
+    this.catParentElem = document.getElementById('categoryParent') || null;
+    this.catContainer = document.getElementById('categoryContainer')|| null;
+  };
+  addCategories(catArray) {
+    if(catArray.length > 0) {
+      const ui = this;
+      for(let i; i < catArray.length; i++) {
+        ui.addCategory(catArray[i], false);
+      }
+    };
+  };
+  addCategory(cat, showAlert) {
     const row = document.createElement('tr');
-    // Insert cols
+    row.innerHTML = `
+      <td>${cat.id}</td>
+      <td>${cat.title}</td>
+      <td>${Date(cat.date)}</td>
+      <td><a href="details.html" class="btn btn-secondary">
+      <i class="fas fa-angle-double-right"></i> Details
+    </a></td>
+    `;
+    this.catTable.appendChild(row);
+
+    if(showAlert) {
+      this.showCategoryAlert('Category Added!', 'success');
+    }
+  };
+  showCategoryAlert(message, className) {
+    const div = document.createElement('div');
+    div.className = `alert ${className}`;
+    div.appendChild(document.createTextNode(message));
+    this.catParentElem.insertBefore(div, this.catContainer);
+    setTimeout(function () {
+      document.querySelector('.alert').remove();
+    }, 3000);
+  };
+  clearTable() {
+    this.catTable.innerHTML = '';
+  };
+};
+
+class PostUI {
+  constructor() {
+    this.postLatestTable = document.getElementById('postLatestTableBody') || null;
+    this.postLatestParentElem = document.getElementById('postLatestParent') || null;
+    this.postLatestContainer = document.getElementById('postLatestContainer')|| null;
+    this.postAllTable = document.getElementById('postAllTableBody') || null;
+    this.postAllParentElm = document.getElementById('postAllParent') || null;
+    this.postAllContainer = document.getElementById('postAllContainer') || null;
+  };
+  addPost(post, showAlert, table) {
+    const row = document.createElement('tr');
     row.innerHTML = `
       <td>${post.id}</td>
       <td>${post.title}</td>
@@ -42,207 +197,228 @@ class UI {
       <i class="fas fa-angle-double-right"></i> Details
     </a></td>
     `;
-    postsTable.appendChild(row);
+    if(table === 'all') {
+      this.postAllTable.appendChild(row);
+    } else if(table === 'latest' || postLatestTable.firstChild) {
+      this.postLatestTable.appendChild(row);
+    }
+
+    if(showAlert) {
+      this.showPostAlert('Post Added!', 'success');
+    }
   };
-  // Show alert on DOM
-  showAlert(message, className) {
-    // Create DIV
+  showPostAlert(message, className) {
     const div = document.createElement('div');
-    // Add classes 
     div.className = `alert ${className}`;
-    // Add text
-    div.appendChild(document.createTextNode(message))
-
-    // Get parent
-    const postParent = document.getElementById('postParent');
-
-    // Get container
-    const container = document.getElementById('postContainer');
-
-    // Insert alert
-    postParent.insertBefore(div, container);
-    // Timeout after 3 sec
+    div.appendChild(document.createTextNode(message));
+    this.postLatestParentElem.insertBefore(div, this.postLatestContainer);
     setTimeout(function () {
       document.querySelector('.alert').remove();
     }, 3000);
   };
   clearTable() {
-    const postsTable = document.querySelector('tbody');
-    postsTable.innerHTML = '';
-  }
-}
+    this.postLatestTable.innerHTML = '';
+  };
+};
 
-// Local Storage Class
 class Store {
-  static setDefaultPosts() {
-
-  }
-
   static getPosts() {
-    // Declare var
     let posts;
-    // If LS doesn't have books, create it
     if (localStorage.getItem('posts') === null) {
       posts = [];
-    }
-    // If LS does have books, get it.
-    else {
+    } else {
       posts = JSON.parse(localStorage.getItem('posts'));
     }
-    // return books
     return posts;
-  }
+  };
 
-  static displayPosts() {
-    // get posts from LS
+  static getLatestPosts() {
+    let posts = Store.getPosts();
+    if(posts.length > 0) {
+      let latest = posts.reverse();
+      posts = latest;
+    }
+    return posts;
+  };
+
+  static getRecentPosts(numPosts) {
     const posts = Store.getPosts();
+    let recentPosts = posts.reverse();
+    recentPosts.length = Number(numPosts);
+    return recentPosts;
+  };
 
-    posts.forEach(function (post) {
-      const ui = new UI;
-      // Add book to UI
-      ui.addPost(post);
-    });
-  }
-
-  static displayLatestPosts(postNum) {
-    // get posts from LS
-    const posts = Store.getPosts();
-    // Get most recently added posts
-    const latestPosts = posts.reverse();
-    // Init UI
-    const ui = new UI;
-    // Get latest 5 posts
-    for (let i = 0; i < postNum; i++) {
-      // Add the posts to the UI
-      ui.addPost(latestPosts[i]);
-    };
-  }
-
-  static addPost(post) {
-    // get posts from LS
-    const posts = Store.getPosts();
-    // Push into array
-    posts.push(post);
-    // Set back to local storage
-    localStorage.setItem('posts', JSON.stringify(posts));
-  }
+  static addPosts(posts) {
+    let state = Store.getPosts();
+    if (state.length > 0) {
+      state.push(posts);
+    } else {
+      state = posts;
+    }
+    localStorage.setItem('posts', JSON.stringify(state));
+    updatePostCount();
+  };
 
   static removePost(id) {
-    // get posts from LS
     const posts = Store.getPosts();
-    // Loop through array
     posts.forEach(function (post, index) {
       if (post.id === id) {
         posts.splice(index, 1);
       }
     });
-    // Set back to local storage
-    localStorage.setItem('posts', JSON.stringify(posts));
-  }
-}
+    window.localStorage.setItem('posts', JSON.stringify(posts));
+    updatePostCount();
+  };
 
-// Default Posts
-const examplePosts = [
-  {
-    id: '1',
-    title: 'Post One',
-    category: 'Web Development',
-    date: '2019-11-01'
-  },
-  {
-    id: '2',
-    title: 'Post Two',
-    category: 'Health & Wellness',
-    date: '2019-05-11'
-  },
-  {
-    id: '3',
-    title: 'Post Three',
-    category: 'Web Development',
-    date: '2019-04-20'
-  },
-  {
-    id: '4',
-    title: 'Post Four',
-    category: 'Business',
-    date: '2019-06-30'
-  },
-  {
-    id: '5',
-    title: 'Post Five',
-    category: 'Tech Gadgets',
-    date: '2019-01-01'
-  }
-];
+  static getCategories() {
+    let cat;
+    if (localStorage.getItem('categories') === null) {
+      cat = [];
+    } else {
+      cat = JSON.parse(localStorage.getItem('categories'));
+    }
+    return cat;
+  };
 
-// Post Count Widget
-function postCount() {
-  let postsArr = Store.getPosts();
-  // Number of posts
-  let pCount = postsArr.length;
-  let pTextNode = document.createTextNode(` ${pCount}`);
-  let parentNode = document.getElementById('postCount');
-  let refNode = parentNode.firstElementChild;
-  // Insert into DOM
-  refNode.parentNode.insertBefore(pTextNode, refNode.nextSibiling);
-}
+  static addCategory(cat) {
+    let state = Store.getCategories();
+    if (state.length > 0) {
+      state.push(cat);
+    } else {
+      state = cat;
+    }
+    localStorage.setItem('categories', JSON.stringify(state));
+    updateCategoryCount();
+    reloadPostCategories();
+  };
 
-// DOM Load Events
+  static removeCategory(id) {
+    const cats = Store.getCategories();
+    cats.forEach(function (cat, index) {
+      if (cat.id === id) {
+        cats.splice(index, 1);
+      }
+    });
+    window.localStorage.setItem('categories', JSON.stringify(cats));
+    updateCategoryCount();
+    reloadPostCategories();
+  };
+};
 
-// Load posts from LS
-document.addEventListener('DOMContentLoaded', function () {
-  let firstVisit = localStorage.getItem('posts');
-  // If first visit, load example posts
-  if (firstVisit === null) {
-    examplePosts.forEach((post) => {
-      Store.addPost(post);
+function initLatestPosts(ui) {
+  const localPosts = Store.getLatestPosts();
+  if(localPosts.length === 0) {
+    Store.addPosts(examplePosts);
+    examplePosts.forEach(function (post) {
+      ui.addPost(post, false, 'latest');
+    })
+  } else {
+    localPosts.forEach(function (post) {
+      ui.addPost(post, false, 'latest');
     });
   }
-  // Load Latest Posts
-  Store.displayLatestPosts('5');
-  // Update Post Count
-  postCount();
-});
+  updatePostCount();
+};
 
-
-// TESTING
-// const newPost = new Post('9', 'New Post', 'Web Development', 'image', 'body', '01-01-2000');
-
-const newCategory = new Category('5', 'Online Courses');
-
-// Init UI
-const ui = new UI;
-
-const addPostButton = document.getElementById('addPostBtn');
-addPostButton.addEventListener('click', function () {
-  // Check if values are empty
-  const title = document.getElementById('postTitle');
-  const category = document.getElementById('postCategory');
-  // Random ID
-  const id = Math.floor(Math.random() * 100);
-  if (title.value === '' | category.value === '') {
-    // Error Handling
-    console.log('Error: Post incomplete. Please include both a title and category');
+function initAllPosts(ui) {
+  const localPosts = Store.getPosts();
+  if(localPosts.length === 0) {
+    Store.addPosts(examplePosts);
+    examplePosts.forEach(function(post) {
+      ui.addPost(post, false, 'all');
+    });
   } else {
-    // Inputs Validated - Create new post
-    const post = new Post(id, title.value, category.value);
-    // Store post
-    Store.addPost(post);
-    // Init UI
-    const ui = new UI;
-    // Clear Latest PostsUI
-    ui.clearTable();
-    // Reload Latest Posts
-    Store.displayLatestPosts('5');
-    // Display Alert
-    ui.showAlert('Post Added!', 'alert-success');
+    localPosts.forEach(function(post) {
+      ui.addPost(post, false, 'all');
+    });
+  };
+};
+
+function initCategories(ui) {
+  const localCategories = Store.getCategories();
+  if(localCategories.length === 0) {
+    Store.addCategory(defaultCategories);   
   }
-  // Clear Inputs
-  title.value = '';
-  // TODO: clear select option
-})
+  ui.addCategories(localCategories);
+  updateCategoryCount();
+  reloadPostCategories();
+};
 
+function initCategoryTable(ui) {
+  const localCategories = Store.getCategories();
+  if(localCategories.length === 0) {
+    Store.addCategory(defaultCategories);
+    defaultCategories.forEach(function(cat) {
+      ui.addCategory(cat);
+    });
+  } else {
+    localCategories.forEach(function(cat) {
+      ui.addCategory(cat);
+    });
+  };
+};
 
+function updatePostCount() {
+  if(postCountElem) {
+    const posts = Store.getPosts();
+    const count = posts.length;
+    postCountElem.innerHTML = Number(count);
+  }
+};
 
+function updateCategoryCount() {
+  if(catCountElem) {
+    const cats = Store.getCategories();
+    const count = cats.length;
+    catCountElem.innerHTML = Number(count);
+  }
+};
 
+function reloadPostCategories() {
+  if(postCategory) {
+    const categories = Store.getCategories();
+    if(categories.length > 0) {
+      postCategory.innerHTML = '<option selected="selected">Choose One...</option>'; // reset
+      categories.forEach(function(cat) {
+        let option = document.createElement('option');
+        option.innerHTML = cat.title;
+        postCategory.appendChild(option);
+      });
+    }
+  }
+};
+
+function saveCategory() {
+  const title = document.getElementById('categoryTitle');
+  const id = Math.floor(Math.random() * 100); // Random ID between 1 and 100
+  if (title.value === '') {
+    // Error Handling
+    console.log('Error: Category incomplete. Please include a title');
+  } else {
+    const cat = new Category(id, title.value);
+    Store.addCategory(cat);                          
+    // Clear Inputs
+    title.value = '';
+  }
+};
+
+function savePost(ui, postType) {
+  const title = document.getElementById('postTitle');
+    const category = document.getElementById('postCategory');
+    // Random ID
+    const id = Math.floor(Math.random() * 100);
+    if (title.value === '' || category.value === '') {
+      // Error Handling
+      console.log('Error: Post incomplete. Please include both a title and category');
+    } else {
+      // Inputs Validated - Create new post
+      const post = new Post(id, title.value, category.value);
+      Store.addPosts(post);                       
+      // Add Posts to UI
+      ui.addPost(post, true, postType);
+    }
+    // Clear Inputs
+    title.value = '';
+    category.value = '';
+};
 

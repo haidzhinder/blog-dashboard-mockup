@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +12,6 @@
     integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous" />
   <title>Admin Panel</title>
 </head>
-
 <body>
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
@@ -41,7 +39,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown mr-3">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-              <i class="fas fa-user"></i> Welcome Chris
+              <i class="fas fa-user"></i> Welcome User
             </a>
             <div class="dropdown-menu">
               <a href="profile.html" class="dropdown-item">
@@ -61,7 +59,6 @@
       </div>
     </div>
   </nav>
-
   <!-- HEADER -->
   <header id="main-header" class="py-2 bg-primary text-white">
     <div class="container">
@@ -72,7 +69,6 @@
       </div>
     </div>
   </header>
-
   <!-- ACTIONS -->
   <section id="actions" class="py-4 mb-4 bg-light">
     <div class="container">
@@ -88,24 +84,23 @@
           </a>
         </div>
         <div class="col-md-3">
-          <a href="#" class="btn btn-warning btn-block" data-toggle="modal" data-target="#addUserModal">
+          <a href="#" class="btn btn-warning btn-block text-white" data-toggle="modal" data-target="#addUserModal">
             <i class="fas fa-plus"></i> Add User
           </a>
         </div>
       </div>
     </div>
   </section>
-
   <!-- POSTS -->
-  <section>
+  <section id="posts">
     <div class="container">
       <div class="row">
-        <div class="col-md-9" id="postParent">
-          <div class="card" id="postContainer">
+        <div class="col-md-9" id="postLatestParent">
+          <div class="card" id="postLatestContainer">
             <div class="card-header">
               <h4>Latest Posts</h4>
             </div>
-            <table class="table table-striped" id="postTable">
+            <table class="table table-striped" id="postLatestTable">
               <thead class="table-dark">
                 <tr>
                   <th>#</th>
@@ -115,7 +110,7 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody id="latestPosts">
+              <tbody id="postLatestTableBody">
               </tbody>
             </table>
           </div>
@@ -124,9 +119,9 @@
           <div class="card text-center bg-primary text-white mb-3">
             <div class="card-body">
               <h3>Posts</h3>
-              <!-- Added ID for JS -->
-              <h4 class="display-4" id="postCount">
+              <h4 class="display-4">
                 <i class="fas fa-pencil-alt"></i>
+                <span id="postCount"></span>
               </h4>
               <a href="posts.html" class="btn btn-outline-light btn-sm">View</a>
             </div>
@@ -136,7 +131,8 @@
             <div class="card-body">
               <h3>Categories</h3>
               <h4 class="display-4">
-                <i class="fas fa-folder"></i> 4
+                <i class="fas fa-folder"></i>
+                <span id="categoryCount"></span>
               </h4>
               <a href="categories.html" class="btn btn-outline-light btn-sm">View</a>
             </div>
@@ -155,7 +151,6 @@
       </div>
     </div>
   </section>
-
   <!-- FOOTER -->
   <footer id="main-footer" class="bg-dark text-white mt-5 p-5">
     <div class="container">
@@ -169,9 +164,7 @@
       </div>
     </div>
   </footer>
-
   <!-- MODALS -->
-
   <!-- ADD POST MODAL -->
   <div class="modal fade" id="addPostModal">
     <div class="modal-dialog modal-lg">
@@ -192,10 +185,6 @@
               <label for="category">Category</label>
               <select class="form-control" id="postCategory">
                 <option selected="selected">Choose One...</option>
-                <option>Web Development</option>
-                <option>Tech Gadgets</option>
-                <option>Business</option>
-                <option>Health & Wellness</option>
               </select>
             </div>
             <div class="form-group">
@@ -213,14 +202,11 @@
           </form>
         </div>
         <div class="modal-footer">
-          <!-- Added id for JS -->
           <button class="btn btn-primary" data-dismiss="modal" id="addPostBtn">Add Post</button>
         </div>
       </div>
     </div>
   </div>
-
-
   <!-- ADD CATEGORY MODAL -->
   <div class="modal fade" id="addCategoryModal">
     <div class="modal-dialog modal-lg">
@@ -235,17 +221,16 @@
           <form>
             <div class="form-group">
               <label for="title">Title</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" id="categoryTitle">
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-success" data-dismiss="modal">Save Changes</button>
+          <button class="btn btn-success" data-dismiss="modal" id="addCategoryBtn">Save Changes</button>
         </div>
       </div>
     </div>
   </div>
-
   <!-- ADD USER MODAL -->
   <div class="modal fade" id="addUserModal">
     <div class="modal-dialog modal-lg">
@@ -282,9 +267,6 @@
       </div>
     </div>
   </div>
-
-
-
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -295,15 +277,12 @@
     crossorigin="anonymous"></script>
   <!-- WYSWYG Editor -->
   <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-
   <script>
     // Get the current year for the copyright
     $('#year').text(new Date().getFullYear());
     // Modal Editor
     CKEDITOR.replace('editor1');
   </script>
-  <!-- Local JS -->
-  <script src="js/app.js"></script>
+  <script src="./js/app.js"></script>
 </body>
-
 </html>
