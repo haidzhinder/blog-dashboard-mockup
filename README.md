@@ -1,8 +1,7 @@
 # Blog-Dashboard  
 ## An Admin Panel UI for a Blog Site  
 
-![Screenshot Preview](https://imgur.com/a/OkGjN5D.png)
-[![Screenshot Preview](https://i.imgur.com/QWqfb8U.png)]
+[![Screenshot Preview](https://i.imgur.com/QWqfb8U.png =250)]
 
 Techologies Used:
    - HTML 5
