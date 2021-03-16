@@ -1,6 +1,5 @@
 /* 
   This file is intended to simulate a backend response.
-  It is not meant to be used for any other purpose.
   Author: Chris Mabey
   Date: 05/02/2021
 */
@@ -149,11 +148,18 @@ class CategoryUI {
   };
   addCategory(cat, showAlert) {
     const row = document.createElement('tr');
+    const dateRaw = new Date(cat.date)
+    const formattedDate = dateRaw.toLocaleString('en-US', {
+      weekday: 'short', // "Sat"
+      month: 'long', // "June"
+      day: '2-digit', // "01"
+      year: 'numeric' // "2019"
+    });
     row.innerHTML = `
       <td>${cat.id}</td>
       <td>${cat.title}</td>
-      <td>${Date(cat.date)}</td>
-      <td><a href="details.html" class="btn btn-secondary">
+      <td>${formattedDate}</td>
+      <td><a href="details.html" class="btn background-secondary">
       <i class="fas fa-angle-double-right"></i> Details
     </a></td>
     `;
@@ -188,12 +194,19 @@ class PostUI {
   };
   addPost(post, showAlert, table) {
     const row = document.createElement('tr');
+    const dateRaw = new Date(post.date)
+    const formattedDate = dateRaw.toLocaleString('en-US', {
+      weekday: 'short', // "Sat"
+      month: 'long', // "June"
+      day: '2-digit', // "01"
+      year: 'numeric' // "2019"
+    });
     row.innerHTML = `
       <td>${post.id}</td>
       <td>${post.title}</td>
       <td>${post.category}</td>
-      <td>${Date(post.date)}</td>
-      <td><a href="details.html" class="btn btn-secondary">
+      <td>${formattedDate}</td>
+      <td><a href="details.html" class="btn background-secondary">
       <i class="fas fa-angle-double-right"></i> Details
     </a></td>
     `;
@@ -422,3 +435,18 @@ function savePost(ui, postType) {
     category.value = '';
 };
 
+async function getAPIPosts() {
+    let postArray;
+    const postsFetch = await fetch('https://jsonplaceholder.typicode.com/posts/')
+    const posts = await postsFetch.json()
+    
+    return posts
+    // for (let i; i <= 5; i++) {
+    //   postArray.push(posts[i])
+    // }
+    // return postArray;
+}
+
+getAPIPosts()
+  .then(posts => console.log(posts))
+  .catch(err => console.log(err))

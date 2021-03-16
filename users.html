@@ -8,6 +8,8 @@
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="/css/style.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css"
     integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous" />
@@ -16,7 +18,7 @@
 
 <body>
   <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
+  <nav class="navbar navbar-expand-sm navbar-dark background-dark p-0">
     <div class="container">
       <a href="index.html" class="navbar-brand">Admin Panel</a>
       <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse"><span
@@ -61,27 +63,25 @@
       </div>
     </div>
   </nav>
-
   <!-- HEADER -->
-  <header id="main-header" class="py-2 bg-warning text-white">
+  <header id="main-header" class="py-2 background-light">
     <div class="container">
       <div class="row">
-        <div class="col-md-6">
-          <h1><i class="fas fa-users"></i> Users</h1>
+        <div class="col align-self-center" id="header-div">
+          <h3><i class="fas fa-users"></i> Users</h3>
         </div>
       </div>
     </div>
   </header>
-
   <!-- SEARCH -->
-  <section id="search" class="py-4 mb-4 bg-light">
+  <section id="search" class="py-4">
     <div class="container">
       <div class="row">
         <div class="col-md-6 ml-auto">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search Users...">
             <div class="input-group-append">
-              <button class="btn btn-warning">Search</button>
+              <button class="btn background-light">Search</button>
             </div>
           </div>
         </div>
@@ -95,11 +95,11 @@
       <div class="row">
         <div class="col">
           <div class="card">
-            <div class="card-header">
-              <h4>Latest Users</h4>
+            <div class="card-header text-center">
+              <h4>Current Users</h4>
             </div>
             <table class="table table-striped">
-              <thead class="table-dark">
+              <thead class="background-dark">
                 <tr>
                   <th>#</th>
                   <th>Name</th>
@@ -113,7 +113,7 @@
                   <td>John Doe</td>
                   <td>john.doe@example.com</td>
                   <td>
-                    <a href="details.html" class="btn btn-secondary">
+                    <a href="details.html" class="btn background-secondary">
                       <i class="fas fa-angle-double-right"></i> Details
                     </a>
                   </td>
@@ -123,7 +123,7 @@
                   <td>Harry White</td>
                   <td>harry@email.com</td>
                   <td>
-                    <a href="details.html" class="btn btn-secondary">
+                    <a href="details.html" class="btn background-secondary">
                       <i class="fas fa-angle-double-right"></i> Details
                     </a>
                   </td>
@@ -133,7 +133,7 @@
                   <td>Mary Johnson</td>
                   <td>mary@website.com</td>
                   <td>
-                    <a href="details.html" class="btn btn-secondary">
+                    <a href="details.html" class="btn background-secondary">
                       <i class="fas fa-angle-double-right"></i> Details
                     </a>
                   </td>
@@ -146,7 +146,7 @@
     </div>
   </section>
   <!-- FOOTER -->
-  <footer id="main-footer" class="bg-dark text-white mt-5 p-5">
+  <footer id="main-footer" class="background-dark mt-5 p-5">
     <div class="container">
       <div class="row">
         <div class="col">
