@@ -1,7 +1,7 @@
 # Blog-Dashboard  
 ## An Admin Panel UI for a Blog Site  
 
-<img src="https://i.imgur.com/QWqfb8U.png" width="200" height="300" />
+<img src="https://i.imgur.com/QWqfb8U.png" width="400" height="700" />
 
 Techologies Used:
    - HTML 5
