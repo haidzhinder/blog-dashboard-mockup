@@ -2,10 +2,11 @@
 ## An Admin Panel UI for a Blog Site  
 
 Techologies Used:
-   - HTML5
+   - HTML 5
    - CSS 3
    - Bootstrap 4
    - Vanilla JS
+   - JQuery
 
 ### [Click Here For A Live Demo](https://blog-admin-ui.netlify.com/index.html)
 
